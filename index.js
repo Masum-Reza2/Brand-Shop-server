@@ -256,7 +256,7 @@ async function run() {
             res.send(result);
         })
 
-        // Dell Endpoints CRUD operation
+        // apple Endpoints CRUD operation
         const appleCollection = database.collection("apple");
         // create
         app.post('/apple', async (req, res) => {
@@ -325,6 +325,105 @@ async function run() {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) };
             const result = await cartCollection.deleteOne(query);
+            res.send(result);
+        })
+
+
+
+        // >>>>>>>>>>>>>>Slider Endpoints<<<<<<<<<<<<<<
+        // samsungSlider Endpoints CRUD operation
+        const samSlider = database.collection("samSlider");
+        // create
+        app.post('/samSlider', async (req, res) => {
+            const doc = req.body;
+            const result = await samSlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/samSlider', async (req, res) => {
+            const cursor = samSlider.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // sonySlider Endpoints CRUD operation
+        const sonySlider = database.collection("sonySlider");
+        // create
+        app.post('/sonySlider', async (req, res) => {
+            const doc = req.body;
+            const result = await sonySlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/sonySlider', async (req, res) => {
+            const cursor = sonySlider.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // intelSlider Endpoints CRUD operation
+        const intelSlider = database.collection("intelSlider");
+        // create
+        app.post('/intelSlider', async (req, res) => {
+            const doc = req.body;
+            const result = await intelSlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/intelSlider', async (req, res) => {
+            const cursor = intelSlider.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // hpSlider Endpoints CRUD operation
+        const hpSlider = database.collection("hpSlider");
+        // create
+        app.post('/hpSlider', async (req, res) => {
+            const doc = req.body;
+            const result = await hpSlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/hpSlider', async (req, res) => {
+            const cursor = hpSlider.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // dellSlider Endpoints CRUD operation
+        const dellSlider = database.collection("dellSlider");
+        // create
+        app.post('/dellSlider', async (req, res) => {
+            const doc = req.body;
+            const result = await dellSlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/dellSlider', async (req, res) => {
+            const cursor = dellSlider.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // appleSlider Endpoints CRUD operation
+        const appleSlider = database.collection("appleSlider");
+        // create
+        app.post('/appleSlider', async (req, res) => {
+            const doc = req.body;
+            const result = await appleSlider.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/appleSlider', async (req, res) => {
+            const cursor = appleSlider.find();
+            const result = await cursor.toArray();
             res.send(result);
         })
 
