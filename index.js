@@ -36,10 +36,39 @@ async function run() {
             res.send(result);
         })
 
-        // read 
+        // read many
         app.get('/samsung', async (req, res) => {
             const cursor = samsungCollection.find();
             const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // update
+        // read single
+        app.get('/singleSamsung/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await samsungCollection.findOne(query);
+            res.send(result);
+        })
+        // update
+        app.put('/singleSamsung/:id', async (req, res) => {
+            const id = req.params.id;
+            const tobeUpdate = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    image: tobeUpdate.newImage,
+                    name: tobeUpdate.newName,
+                    brandName: tobeUpdate.newBrandName,
+                    type: tobeUpdate.newType,
+                    price: tobeUpdate.newPrice,
+                    shortDesc: tobeUpdate.newShortDesc,
+                    rating: tobeUpdate.newRating
+                },
+            };
+            const result = await samsungCollection.updateOne(filter, updateDoc, options);
             res.send(result);
         })
 
