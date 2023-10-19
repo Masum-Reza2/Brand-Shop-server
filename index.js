@@ -28,7 +28,7 @@ async function run() {
         const database = client.db("brandDB");
         const samsungCollection = database.collection("samsung");
 
-        // Samsung Endpoints CRUP operation
+        // Samsung Endpoints CRUD operation
         // create
         app.post('/samsung', async (req, res) => {
             const doc = req.body;
@@ -72,7 +72,7 @@ async function run() {
             res.send(result);
         })
 
-        // Sony Endpoints CRUP operation
+        // Sony Endpoints CRUD operation
         const sonyCollection = database.collection("sony");
         // create
         app.post('/sony', async (req, res) => {
@@ -118,7 +118,7 @@ async function run() {
             res.send(result);
         })
 
-        // Intel Endpoints CRUP operation
+        // Intel Endpoints CRUD operation
         const intelCollection = database.collection("intel");
         // create
         app.post('/intel', async (req, res) => {
@@ -164,7 +164,7 @@ async function run() {
             res.send(result);
         })
 
-        // Intel Endpoints CRUP operation
+        // Intel Endpoints CRUD operation
         const hpCollection = database.collection("hp");
         // create
         app.post('/hp', async (req, res) => {
@@ -210,7 +210,7 @@ async function run() {
             res.send(result);
         })
 
-        // Dell Endpoints CRUP operation
+        // Dell Endpoints CRUD operation
         const dellCollection = database.collection("dell");
         // create
         app.post('/dell', async (req, res) => {
@@ -256,7 +256,7 @@ async function run() {
             res.send(result);
         })
 
-        // Dell Endpoints CRUP operation
+        // Dell Endpoints CRUD operation
         const appleCollection = database.collection("apple");
         // create
         app.post('/apple', async (req, res) => {
@@ -299,6 +299,32 @@ async function run() {
                 },
             };
             const result = await appleCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
+
+        // MyCart Endpoints CRUD operation
+        const cartCollection = database.collection("cart");
+        // create
+        app.post('/cart', async (req, res) => {
+            const doc = req.body;
+            const result = await cartCollection.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/cart', async (req, res) => {
+            const cursor = cartCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // Delete 
+        // read single
+        app.delete('/singleCart/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await cartCollection.deleteOne(query);
             res.send(result);
         })
 
