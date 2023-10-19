@@ -134,7 +134,7 @@ async function run() {
             res.send(result);
         })
 
-        // update
+        // update 
         // read single
         app.get('/singleIntel/:id', async (req, res) => {
             const id = req.params.id;
