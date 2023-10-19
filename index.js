@@ -164,6 +164,52 @@ async function run() {
             res.send(result);
         })
 
+        // Intel Endpoints CRUP operation
+        const hpCollection = database.collection("hp");
+        // create
+        app.post('/hp', async (req, res) => {
+            const doc = req.body;
+            const result = await hpCollection.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/hp', async (req, res) => {
+            const cursor = hpCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // update 
+        // read single
+        app.get('/singleHp/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await hpCollection.findOne(query);
+            res.send(result);
+        })
+
+        // update
+        app.put('/singleHp/:id', async (req, res) => {
+            const id = req.params.id;
+            const tobeUpdate = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    image: tobeUpdate.newImage,
+                    name: tobeUpdate.newName,
+                    brandName: tobeUpdate.newBrandName,
+                    type: tobeUpdate.newType,
+                    price: tobeUpdate.newPrice,
+                    shortDesc: tobeUpdate.newShortDesc,
+                    rating: tobeUpdate.newRating
+                },
+            };
+            const result = await hpCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
