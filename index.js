@@ -210,6 +210,52 @@ async function run() {
             res.send(result);
         })
 
+        // Dell Endpoints CRUP operation
+        const dellCollection = database.collection("dell");
+        // create
+        app.post('/dell', async (req, res) => {
+            const doc = req.body;
+            const result = await dellCollection.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/dell', async (req, res) => {
+            const cursor = dellCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // update 
+        // read single
+        app.get('/singleDell/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await dellCollection.findOne(query);
+            res.send(result);
+        })
+
+        // update
+        app.put('/singleDell/:id', async (req, res) => {
+            const id = req.params.id;
+            const tobeUpdate = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    image: tobeUpdate.newImage,
+                    name: tobeUpdate.newName,
+                    brandName: tobeUpdate.newBrandName,
+                    type: tobeUpdate.newType,
+                    price: tobeUpdate.newPrice,
+                    shortDesc: tobeUpdate.newShortDesc,
+                    rating: tobeUpdate.newRating
+                },
+            };
+            const result = await dellCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
