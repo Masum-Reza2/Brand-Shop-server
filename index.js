@@ -72,6 +72,52 @@ async function run() {
             res.send(result);
         })
 
+        // Sony Endpoints CRUP operation
+        const sonyCollection = database.collection("sony");
+        // create
+        app.post('/sony', async (req, res) => {
+            const doc = req.body;
+            const result = await sonyCollection.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/sony', async (req, res) => {
+            const cursor = sonyCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // update
+        // read single
+        app.get('/singleSony/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await sonyCollection.findOne(query);
+            res.send(result);
+        })
+
+        // update
+        app.put('/singleSony/:id', async (req, res) => {
+            const id = req.params.id;
+            const tobeUpdate = req.body;
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    image: tobeUpdate.newImage,
+                    name: tobeUpdate.newName,
+                    brandName: tobeUpdate.newBrandName,
+                    type: tobeUpdate.newType,
+                    price: tobeUpdate.newPrice,
+                    shortDesc: tobeUpdate.newShortDesc,
+                    rating: tobeUpdate.newRating
+                },
+            };
+            const result = await sonyCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
