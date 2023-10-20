@@ -428,6 +428,47 @@ async function run() {
             res.send(result);
         })
 
+
+        // Users Endpoints CRUD operation
+        // create
+        const usersCollection = database.collection("users");
+        app.post('/users', async (req, res) => {
+            const doc = req.body;
+            const result = await usersCollection.insertOne(doc);
+            res.send(result);
+        })
+
+        // read many
+        app.get('/users', async (req, res) => {
+            const cursor = usersCollection.find();
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        // delete
+        app.delete('/user/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const result = await usersCollection.deleteOne(query);
+            res.send(result);
+        })
+
+        // update
+        app.patch('/user', async (req, res) => {
+            const user = req.body;
+            const filter = { email: user.email };
+            const updateDoc = {
+                $set: {
+                    lastSignInTime: user.lastSignInTime,
+                },
+            };
+            const options = { upsert: true };
+
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
+        })
+
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
