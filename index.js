@@ -459,7 +459,6 @@ async function run() {
             const filter = { email: user.email };
             const updateDoc = {
                 $set: {
-                    creationTime: user.creationTime,
                     lastSignInTime: user.lastSignInTime,
                 },
             };
