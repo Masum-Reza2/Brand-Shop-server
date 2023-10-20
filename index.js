@@ -258,6 +258,7 @@ async function run() {
 
         // apple Endpoints CRUD operation
         const appleCollection = database.collection("apple");
+
         // create
         app.post('/apple', async (req, res) => {
             const doc = req.body;
